@@ -11,7 +11,7 @@ RUN wget https://repos.influxdata.com/influxdb.key && \
     gpg --import influxdb.key && \
     rm -f influxdb.key
 
-ENV CHRONOGRAF_VERSION 0.10.0
+ENV CHRONOGRAF_VERSION 0.11.0
 RUN wget https://s3.amazonaws.com/get.influxdb.org/chronograf/chronograf_${CHRONOGRAF_VERSION}_amd64.deb.asc && \
     wget https://s3.amazonaws.com/get.influxdb.org/chronograf/chronograf_${CHRONOGRAF_VERSION}_amd64.deb && \
     gpg --verify chronograf_${CHRONOGRAF_VERSION}_amd64.deb.asc chronograf_${CHRONOGRAF_VERSION}_amd64.deb && \
