@@ -22,11 +22,11 @@ By default, Chronograf runs on localhost port `10000`
 
 Chronograf 0.10 has following config variables
 
-| FLAG                    | ENV VAR                               | DEFAULT VALUE                 |
-|-------------------------|---------------------------------------|-------------------------------|
-| BIND                    | CHRONOGRAF_BIND                       | http://127.0.0.1:10000        |
-| LocalDatabase           | CHRONOGRAF_LOCAL_DATABASE             | /opt/chronograf/chronograf.db |
-| QueryResponseBytesLimit | CHRONOGRAF_QUERY_RESPONSE_BYTES_LIMIT | 2500000                       |
+| FLAG                    | ENV VAR                               | DEFAULT VALUE                     |
+|-------------------------|---------------------------------------|-----------------------------------|
+| BIND                    | CHRONOGRAF_BIND                       | 0.0.0.0:10000                     |
+| LocalDatabase           | CHRONOGRAF_LOCAL_DATABASE             | /var/lib/chronograf/chronograf.db |
+| QueryResponseBytesLimit | CHRONOGRAF_QUERY_RESPONSE_BYTES_LIMIT | 2500000                           |
 
 All of these can be provided in the config file or overrided using the environment variables
 
