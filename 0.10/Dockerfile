@@ -17,8 +17,8 @@ ENV PATH /opt/chronograf/:$PATH
 
 ENV CHRONOGRAF_BIND 0.0.0.0:10000
 ENV CHRONOGRAF_LOCAL_DATABASE /var/lib/chronograf/chronograf.db
+VOLUME /var/lib/chronograf
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["chronograf", "-config", "/opt/chronograf/config.toml"]
-VOLUME /var/lib/chronograf
+CMD ["chronograf"]

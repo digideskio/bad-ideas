@@ -1,46 +1,73 @@
 # Chronograf
 
-Chronograf is a simple to install graphing and visualization application that you deploy behind your firewall to perform ad hoc exploration of your InfluxDB data, It includes support for templates and a library of intelligent, pre-configured dashboards for common data sets.
+Chronograf is a simple to install graphing and visualization
+application that you deploy behind your firewall to perform ad-hoc
+exploration of your InfluxDB data. It includes support for templates
+and a library of intelligent, pre-configured dashboards for common
+data sets.
 
-##Using this image
+## Using this image
 
-#####Exposed Ports
+##### Exposed Ports
 
--	10000 (default port)
+ - 10000 (default port)
 
-#####Using the default configuration
+##### Using the default configuration
 
-By default, Chronograf runs on localhost port `10000`
+By default, Chronograf runs on localhost port `10000`. Chronograf
+exposes a shared volume under `/var/lib/chronograf`, which it uses to
+store database data. You can mount a host directory to
+`/var/lib/chronograf` for host access to persisted container data. A
+typical invocation of the Chronograf container might be:
 
-	docker run --net=host chronograf
+    docker run --net=host \
+           -v /path/on/host:/var/lib/chronograf \
+           chronograf
 
-#####Using a custom config file
+You can also have Docker control the volume mountpoint by using a named volume.
 
-	docker run -v ~/path/on/host/:/root/  -v ~/path/on/host/config.toml:/opt/chronograf/config.toml:ro  --net=host chronograf
+    docker run -p 8083:8083 -p 8086:8086 \
+           -v chronograf:/var/lib/chronograf \
+           chronograf
 
-####Config variables
+##### Using a custom config file
+
+Assuming a custom configuration file on your host at
+`/path/to/config.toml` you can mount a shared volume as follows:
+
+    docker run --net=host \
+           -v /path/to:/opt/chronograf:ro \
+           chronograf -config /opt/chronograf/config.toml
+
+#### Config variables
 
 Chronograf 0.10 has following config variables
 
 | FLAG                    | ENV VAR                               | DEFAULT VALUE                     |
 |-------------------------|---------------------------------------|-----------------------------------|
-| BIND                    | CHRONOGRAF_BIND                       | 0.0.0.0:10000                     |
 | LocalDatabase           | CHRONOGRAF_LOCAL_DATABASE             | /var/lib/chronograf/chronograf.db |
 | QueryResponseBytesLimit | CHRONOGRAF_QUERY_RESPONSE_BYTES_LIMIT | 2500000                           |
 
-All of these can be provided in the config file or overrided using the environment variables
+All of these can be provided in the config file or overrided using the
+environment variables
 
-#####Using environment variables
+##### Binding to a different port
 
-	 docker run --env CHRONOGRAF_BIND="0.0.0.0:10000" -p 10000:10000 chronograf 
+To bind to a different port you can use Docker's `-p` flag. For example, to run Chronograf on port `9999`:
 
-#####Using a custom database file
+    docker run -p 9999:10000 chronograf
 
-	docker run -v ~/some/path/on/host/:/root/ --env CHRONOGRAF_LOCAL_DATABASE=/root/chronograf.db  --net=host chronograf
+##### Using a different database file
 
-####Official Docs
+    docker run --net=host \
+           -v /path/on/host/:/var/lib/other_chronograf.db \
+           --env CHRONOGRAF_LOCAL_DATABASE=/var/lib/other_chronograf db \
+           chronograf
 
-Follow the [official docs](https://docs.influxdata.com/chronograf/v0.10/introduction/getting_started/) to create the visualizations and know more about Chronograf
+#### Official Docs
+
+See the [official docs](https://docs.influxdata.com/chronograf/latest/introduction/getting_started/) for information on creating
+visualizations.
 
 ## Supported Docker versions
 
