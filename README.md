@@ -1,24 +1,39 @@
 # Chronograf
 
-Chronograf is a simple to install graphing and visualization application that you deploy behind your firewall to perform ad hoc exploration of your InfluxDB data, It includes support for templates and a library of intelligent, pre-configured dashboards for common data sets.
+Chronograf is a simple to install graphing and visualization
+application that you deploy behind your firewall to perform ad-hoc
+exploration of your InfluxDB data. It includes support for templates
+and a library of intelligent, pre-configured dashboards for common
+data sets.
 
-##Using this image
+## Using this image
 
-#####Exposed Ports
+##### Exposed Ports
 
--	10000 (default port)
+ - 10000 (default port)
 
-#####Using the default configuration
+##### Using the default configuration
 
-By default, Chronograf runs on localhost port `10000`
+By default, Chronograf runs on localhost port `10000`. The simplest
+invocation of the container is:
 
-	docker run --net=host chronograf
+    docker run --net=host chronograf
 
-#####Using a custom config file
+Chronograf exposes a shared volume under `/var/lib/chronograf`, which it uses to store configuration and database data. You can mount a host directory to `/var/lib/chronograf` for shared access.
 
-	docker run -v ~/path/on/host/:/root/  -v ~/path/on/host/config.toml:/opt/chronograf/config.toml:ro  --net=host chronograf
+    docker run --net=host \
+           -v /path/on/host:/var/lib/chronograf \
+           chronograf
 
-####Config variables
+##### Using a custom config file
+
+Assuming you are using `/path/on/host` as your shared volume, place a configuration file `config.toml` in that directory and then:
+
+    docker run --net=host \
+           -v /path/on/host:/var/lib/chronograf \
+           chronograf -config /var/lib/config.toml
+
+#### Config variables
 
 Chronograf 0.10 has following config variables
 
@@ -30,17 +45,21 @@ Chronograf 0.10 has following config variables
 
 All of these can be provided in the config file or overrided using the environment variables
 
-#####Using environment variables
+##### Using environment variables
 
-	 docker run --env CHRONOGRAF_BIND="0.0.0.0:10000" -p 10000:10000 chronograf 
+    docker run --env CHRONOGRAF_BIND="0.0.0.0:10000" -p 10000:10000 chronograf
 
-#####Using a custom database file
+##### Using a custom database file
 
-	docker run -v ~/some/path/on/host/:/root/ --env CHRONOGRAF_LOCAL_DATABASE=/root/chronograf.db  --net=host chronograf
+    docker run --net=host \
+           -v /path/on/host/:/var/lib/other_chronograf.db \
+           --env CHRONOGRAF_LOCAL_DATABASE=/var/lib/other_chronograf db \
+           chronograf
 
-####Official Docs
+#### Official Docs
 
-Follow the [official docs](https://docs.influxdata.com/chronograf/v0.10/introduction/getting_started/) to create the visualizations and know more about Chronograf
+See the [official docs](https://docs.influxdata.com/chronograf/latest/introduction/getting_started/) for information on creating
+visualizations.
 
 ## Supported Docker versions
 
