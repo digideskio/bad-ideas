@@ -10,15 +10,14 @@ RUN wget -q https://s3.amazonaws.com/get.influxdb.org/chronograf/chronograf_${CH
     gpg --batch --verify chronograf_${CHRONOGRAF_VERSION}_amd64.deb.asc chronograf_${CHRONOGRAF_VERSION}_amd64.deb && \
     dpkg -i chronograf_${CHRONOGRAF_VERSION}_amd64.deb && \
     rm -f chronograf_${CHRONOGRAF_VERSION}_amd64.deb*
+COPY chronograf.conf /etc/chronograf/chronograf.conf
 
 EXPOSE 10000
 
-ENV PATH /opt/chronograf/:$PATH
+ENV PATH /opt/chronograf:$PATH
 
-ENV CHRONOGRAF_BIND 0.0.0.0:10000
-ENV CHRONOGRAF_LOCAL_DATABASE /var/lib/chronograf/chronograf.db
 VOLUME /var/lib/chronograf
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["chronograf"]
+CMD ["chronograf", "-config", "/etc/chronograf/chronograf.conf"]
