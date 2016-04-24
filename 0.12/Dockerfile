@@ -1,7 +1,7 @@
 FROM buildpack-deps:jessie-curl
 
 RUN gpg \
-    --keyserver hkp://pgp.mit.edu \
+    --keyserver hkp://ha.pool.sks-keyservers.net \
     --recv-keys 05CE15085FC09D18E99EFB22684A14CF2582E0C5
 
 ENV CHRONOGRAF_VERSION 0.12.0
@@ -20,4 +20,4 @@ VOLUME /var/lib/chronograf
 
 COPY entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-CMD ["chronograf", "-config", "/etc/chronograf/chronograf.conf"]
+CMD ["chronograf"]
